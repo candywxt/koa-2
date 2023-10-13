@@ -4,7 +4,7 @@ const logger = require("koa-logger");
 const bodyParser = require("koa-bodyparser");
 const fs = require("fs");
 const path = require("path");
-const { init: initDB, Counter } = require("./db");
+const { init: initDB, Counter, WorkerMember } = require("./db");
 
 const router = new Router();
 
@@ -48,6 +48,14 @@ router.get("/api/wx_openid", async (ctx) => {
   if (ctx.request.headers["x-wx-source"]) {
     ctx.body = ctx.request.headers["x-wx-openid"];
   }
+});
+
+router.get("/api/workerList", async (ctx) => {
+  const result = await WorkerMember.findAll({ limit: 100 });
+  ctx.body = {
+    code: 0,
+    data: result,
+  };
 });
 
 const app = new Koa();
