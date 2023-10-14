@@ -66,6 +66,26 @@ const WorkerMember = sequelize.define("WorkerMember", {
   practice: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  province: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
+  city: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
+  zone: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
+  publicStatus: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'NO',
   }
 });
 
