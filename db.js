@@ -67,26 +67,26 @@ const WorkerMember = sequelize.define("WorkerMember", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  province: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: '',
-  },
-  city: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: '',
-  },
-  zone: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: '',
-  },
-  publicStatus: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: 'NO',
-  }
+  // province: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  //   defaultValue: '',
+  // },
+  // city: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  //   defaultValue: '',
+  // },
+  // zone: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  //   defaultValue: '',
+  // },
+  // publicStatus: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  //   defaultValue: 'NO',
+  // }
 });
 
 // 数据库初始化方法
