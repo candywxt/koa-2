@@ -93,7 +93,7 @@ const WorkerMember = sequelize.define("WorkerMember", {
 async function init() {
   try {
     await Counter.sync({ alter: true });
-    await WorkerMember.sync({ force: true });
+    await WorkerMember.sync({ alter: true });
   } catch (error) {
     console.log('error wxt:, ', error)
   }
