@@ -58,19 +58,65 @@ router.get("/api/workerList", async (ctx) => {
   };
 });
 
-router.get("/api/workerDetailByUid", async (ctx) => {
+router.post("/api/workerDetailByUid", async (ctx) => {
   const { request } = ctx;
   const { uid } = request.body;
-  const result = await WorkerMember.findOne({ where: {
-    uid: uid? uid: 1
-  }});
+  const result = await WorkerMember.findOne({
+    where: {
+      uid: uid ? uid : 1
+    }
+  });
+  // result 需要看一下是不是把workerType 给映射一下
   ctx.body = {
     code: 0,
-    data: {
-      result,
-      request,
-    },
+    data: result
   };
+});
+
+
+
+router.post("/api/createWorker", async (ctx) => {
+  const { request } = ctx;
+  const { firstName, age, sex, workerType, description, avatar, lastName, phone,
+    wechat,
+    wechatCode
+  } = request.body;
+
+  const openId = ctx.request.headers["x-wx-openid"];
+  if (openId) {
+    const user = {
+      uid: openId,
+      firstName,
+      age,
+      sex,
+      workerType,
+      description,
+      avatar,
+      lastName,
+      practice,
+      province,
+      city, zone,
+      name: lastName + '师傅',
+      publicStatus: 'NO',
+      phone,
+      wechat,
+      wechatCode
+    }
+    try {
+      await WorkerMember.create(user);
+      ctx.body = {
+        code: 0,
+        data: 'SUCCESS'
+      }
+    } catch (error) {
+      ctx.body = {
+        code: -1,
+        data: {
+          error,
+        }
+      }
+    }
+  }
 });
 
 const app = new Koa();
