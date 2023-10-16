@@ -79,7 +79,11 @@ router.post("/api/createWorker", async (ctx) => {
   const { request } = ctx;
   const { firstName, age, sex, workerType, description, avatar, lastName, phone,
     wechat,
-    wechatCode
+    wechatCode,
+    practice,
+    province,
+    city,
+    zone,
   } = request.body;
 
   const openId = ctx.request.headers["x-wx-openid"];
@@ -95,7 +99,8 @@ router.post("/api/createWorker", async (ctx) => {
       lastName,
       practice,
       province,
-      city, zone,
+      city, 
+      zone,
       name: lastName + '师傅',
       publicStatus: 'NO',
       phone,
