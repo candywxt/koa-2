@@ -58,6 +58,18 @@ router.get("/api/workerList", async (ctx) => {
   };
 });
 
+router.get("/api/workerDetailByUid", async (ctx) => {
+  const { request } = ctx;
+  const { uid } = request.body;
+  const result = await WorkerMember.findOne({ where: {
+    uid
+  } });
+  ctx.body = {
+    code: 0,
+    data: result,
+  };
+});
+
 const app = new Koa();
 app
   .use(logger())
