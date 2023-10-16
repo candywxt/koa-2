@@ -62,11 +62,16 @@ router.get("/api/workerDetailByUid", async (ctx) => {
   const { request } = ctx;
   const { uid } = request.body;
   const result = await WorkerMember.findOne({ where: {
-    uid
+    uid: uid || 1
   } });
   ctx.body = {
     code: 0,
-    data: result,
+    data: {
+      result,
+      request: {
+        body
+      },
+    },
   };
 });
 
