@@ -86,6 +86,18 @@ const WorkerMember = sequelize.define("WorkerMember", {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: 'NO',
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  wechat: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  wechatCode: {
+    type: DataTypes.STRING,
+    allowNull: false,
   }
 });
 
