@@ -22,7 +22,7 @@ const Counter = sequelize.define("Counter", {
 
 const WorkerMember = sequelize.define("WorkerMember", {
   uid: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   firstName: {
