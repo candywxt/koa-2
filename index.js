@@ -6,6 +6,9 @@ const fs = require("fs");
 const path = require("path");
 const { init: initDB, Counter, WorkerMember } = require("./db");
 
+const cloud = require('wx-server-sdk');
+cloud.init();
+
 const router = new Router();
 
 const homePage = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
