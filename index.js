@@ -73,6 +73,13 @@ router.post("/api/workerDetailByUid", async (ctx) => {
   };
 });
 
+// 上传图片
+router.post("/api/uploadImage", async (ctx) => {
+  ctx.body = {
+    code: 0,
+    data: "SUCCESS"
+  };
+});
 
 
 router.post("/api/createWorker", async (ctx) => {
