@@ -78,10 +78,26 @@ router.post("/api/workerDetailByUid", async (ctx) => {
 
 // 上传图片
 router.post("/api/uploadImage", async (ctx) => {
-  ctx.body = {
-    code: 0,
-    data: "SUCCESS"
-  };
+
+  try {
+    const { request } = ctx;
+    const { fileContent } = request.body; // 这里假设通过小程序客户端传递了文件内容
+    const cloudPath = 'avatar/test2.jpg'; // 云存储路径，指定上传后文件在云存储中的位置
+    const result = await cloud.uploadFile({
+      cloudPath: cloudPath,
+      fileContent: Buffer.from(fileContent, 'base64'), // 将传递的文件内容以 Base64 解码为 Buffer
+    });
+
+    ctx.body = {
+      code: 0,
+      data: result
+    }
+  } catch (err) {
+    ctx.body = {
+      code: -1,
+      data: err
+    };
+  }
 });
 
 
