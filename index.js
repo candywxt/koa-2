@@ -85,41 +85,57 @@ router.post("/api/createWorker", async (ctx) => {
     city,
     zone,
   } = request.body;
-
   const openId = ctx.request.headers["x-wx-openid"];
   if (openId) {
-    const user = {
-      uid: openId,
-      firstName,
-      age,
-      sex,
-      workerType,
-      description,
-      avatar,
-      lastName,
-      practice,
-      province,
-      city, 
-      zone,
-      name: lastName + '师傅',
-      publicStatus: 'NO',
-      phone,
-      wechat,
-      wechatCode
-    }
-    try {
-      await WorkerMember.create(user);
+    const findUserExist = WorkerMember.findOne({
+      where: {
+        uid: openId
+      }
+    })
+    if (findUserExist) {
       ctx.body = {
         code: 0,
-        data: 'SUCCESS'
+        data: '用户信息已存在，请联系管理员修改！'
       }
-    } catch (error) {
-      ctx.body = {
-        code: -1,
-        data: {
-          error,
+    } else {
+      const user = {
+        uid: openId,
+        firstName,
+        age,
+        sex,
+        workerType,
+        description,
+        avatar,
+        lastName,
+        practice,
+        province,
+        city,
+        zone,
+        name: lastName + '师傅',
+        publicStatus: 'NO',
+        phone,
+        wechat,
+        wechatCode
+      }
+      try {
+        await WorkerMember.create(user);
+        ctx.body = {
+          code: 0,
+          data: 'SUCCESS'
+        }
+      } catch (error) {
+        ctx.body = {
+          code: -1,
+          data: {
+            error,
+          }
         }
       }
+    }
+  } else {
+    ctx.body = {
+      code: 0,
+      data: '用户登录信息不存在，请在小程序内登录后重新创建'
     }
   }
 });
