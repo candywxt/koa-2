@@ -30,8 +30,16 @@ const WorkerMember = sequelize.define("WorkerMember", {
     allowNull: false,
     defaultValue: '',
   },
-  age: {
-    type: DataTypes.INTEGER,
+  birthYear: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  birthMonth: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  birthDate: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   sex: {
@@ -96,6 +104,10 @@ const WorkerMember = sequelize.define("WorkerMember", {
     allowNull: false,
   },
   wechatCode: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  albums: {
     type: DataTypes.STRING,
     allowNull: false,
   }

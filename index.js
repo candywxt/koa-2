@@ -5,6 +5,15 @@ const bodyParser = require("koa-bodyparser");
 const fs = require("fs");
 const path = require("path");
 const { init: initDB, Counter, WorkerMember } = require("./db");
+const workerTypeMap = {
+  chaigai: '拆改',
+  shuidian: '水电',
+  nigong: '泥工',
+  mugong: '木工',
+  yougong: '油工',
+  meifeng: '美缝',
+  baojie: '保洁'
+}
 
 const cloud = require('wx-server-sdk');
 cloud.init();
@@ -69,37 +78,21 @@ router.post("/api/workerDetailByUid", async (ctx) => {
       uid: uid ? uid : 1
     }
   });
-  // result 需要看一下是不是把workerType 给映射一下
+
+  const now = new Date();
+  const nowYear = now.getFullYear();
+  const age = nowYear - result.birthYear;
+  const user = {
+    ...result,
+    age,
+    workerTypeCH: workerTypeMap[result.workerType],
+    albums: JSON.parse(result.albums)
+  }
   ctx.body = {
     code: 0,
-    data: result
+    data: user
   };
 });
-
-// 上传图片
-router.post("/api/uploadImage", async (ctx) => {
-
-  try {
-    const { request } = ctx;
-    const { fileContent } = request.body; // 这里假设通过小程序客户端传递了文件内容
-    const cloudPath = 'avatar/test2.jpg'; // 云存储路径，指定上传后文件在云存储中的位置
-    const result = await cloud.uploadFile({
-      cloudPath: cloudPath,
-      fileContent: Buffer.from(fileContent, 'base64'), // 将传递的文件内容以 Base64 解码为 Buffer
-    });
-
-    ctx.body = {
-      code: 0,
-      data: result
-    }
-  } catch (err) {
-    ctx.body = {
-      code: -1,
-      data: err
-    };
-  }
-});
-
 
 router.post("/api/createWorker", async (ctx) => {
   const { request } = ctx;
@@ -110,6 +103,10 @@ router.post("/api/createWorker", async (ctx) => {
     province,
     city,
     zone,
+    birthYear,
+    birthMonth,
+    birthDate,
+    albums
   } = request.body;
   const openId = ctx.request.headers["x-wx-openid"];
   if (openId) {
@@ -127,7 +124,9 @@ router.post("/api/createWorker", async (ctx) => {
       const user = {
         uid: openId,
         firstName,
-        age,
+        birthYear,
+        birthMonth,
+        birthDate,
         sex,
         workerType,
         description,
@@ -141,7 +140,8 @@ router.post("/api/createWorker", async (ctx) => {
         publicStatus: 'NO',
         phone,
         wechat,
-        wechatCode
+        wechatCode,
+        albums: JSON.stringify(albums)
       }
       try {
         await WorkerMember.create(user);
