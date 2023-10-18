@@ -115,10 +115,12 @@ router.post("/api/createWorker", async (ctx) => {
         uid: openId
       }
     })
+
     if (findUserExist) {
       ctx.body = {
         code: 0,
-        data: '用户信息已存在，请联系管理员修改！'
+        msg: "用户信息已存在，请联系管理员修改！",
+        data: findUserExist
       }
     } else {
       const user = {
