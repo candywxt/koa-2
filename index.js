@@ -67,10 +67,13 @@ router.get("/api/workerList", async (ctx) => {
   const now = new Date();
   const nowYear = now.getFullYear();
 
-  result.map(item => {
+  const newResult = []
+
+
+  result.forEach(item => {
     const { avatar, uid, birthYear, workerType, name, sex, practice, description } = item;
     const age = nowYear - birthYear;
-    return {
+    newResult.push({
       avatar,
       uid,
       age,
@@ -79,11 +82,11 @@ router.get("/api/workerList", async (ctx) => {
       sex,
       practice,
       description,
-    }
+    })
   });
   ctx.body = {
     code: 0,
-    data: result,
+    data: newResult,
   };
 });
 
