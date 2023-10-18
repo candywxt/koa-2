@@ -64,6 +64,13 @@ router.get("/api/wx_openid", async (ctx) => {
 
 router.get("/api/workerList", async (ctx) => {
   const result = await WorkerMember.findAll({ limit: 100 });
+  result.map(item => {
+    return {
+      ...item,
+      age,
+      workerTypeCH: workerTypeMap[item.workerType],
+    }
+  });
   ctx.body = {
     code: 0,
     data: result,
@@ -78,7 +85,6 @@ router.post("/api/workerDetailByUid", async (ctx) => {
       uid: uid ? uid : 1
     }
   });
-
   const now = new Date();
   const nowYear = now.getFullYear();
   const age = nowYear - result.birthYear;
