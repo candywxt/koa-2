@@ -95,7 +95,7 @@ router.post("/api/workerDetailByUid", async (ctx) => {
       uid: uid ? uid : 1
     }
   });
-  const { uid, firstName, sex, workerType, description, avatar, lastName, phone,
+  const { firstName, sex, workerType, description, avatar, lastName, phone,
     wechat,
     wechatCode,
     practice,
