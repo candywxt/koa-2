@@ -116,7 +116,7 @@ router.post("/api/createWorker", async (ctx) => {
       }
     })
 
-    if (findUserExist) {
+    if (findUserExist.uid) {
       ctx.body = {
         code: 0,
         msg: "用户信息已存在，请联系管理员修改！",
