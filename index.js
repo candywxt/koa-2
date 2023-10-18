@@ -133,14 +133,17 @@ router.post("/api/workerDetailByUid", async (ctx) => {
 
 router.get("/api/checkWorkerExist", async(ctx) => {
   const openId = ctx.request.headers["x-wx-openid"];
-  const findUserExist = WorkerMember.findOne({
+  const findUserExist = await WorkerMember.findOne({
     where: {
       uid: openId
     }
   });
   ctx.body = {
     code: 0,
-    data: findUserExist,
+    data: {
+      openId,
+      findUserExist
+    },
   }
 })
 
@@ -160,7 +163,7 @@ router.post("/api/createWorker", async (ctx) => {
   } = request.body;
   const openId = ctx.request.headers["x-wx-openid"];
   if (openId) {
-    const findUserExist = WorkerMember.findOne({
+    const findUserExist = await WorkerMember.findOne({
       where: {
         uid: openId
       }
