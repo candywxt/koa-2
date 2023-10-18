@@ -64,11 +64,21 @@ router.get("/api/wx_openid", async (ctx) => {
 
 router.get("/api/workerList", async (ctx) => {
   const result = await WorkerMember.findAll({ limit: 100 });
+  const now = new Date();
+  const nowYear = now.getFullYear();
+
   result.map(item => {
+    const { avatar, uid, birthYear, workerType, name, sex, practice, description } = item;
+    const age = nowYear - birthYear;
     return {
-      ...item,
+      avatar,
+      uid,
       age,
-      workerTypeCH: workerTypeMap[item.workerType],
+      workerTypeCH: workerTypeMap[workerType],
+      name,
+      sex,
+      practice,
+      description,
     }
   });
   ctx.body = {
@@ -85,14 +95,32 @@ router.post("/api/workerDetailByUid", async (ctx) => {
       uid: uid ? uid : 1
     }
   });
+  const { uid, firstName, sex, workerType, description, avatar, lastName, phone,
+    wechat,
+    wechatCode,
+    practice,
+    province,
+    city,
+    zone,
+    birthYear,
+    albums
+  } = result;
+
   const now = new Date();
   const nowYear = now.getFullYear();
-  const age = nowYear - result.birthYear;
+  const age = nowYear - birthYear;
+
   const user = {
-    ...result,
-    age,
-    workerTypeCH: workerTypeMap[result.workerType],
-    albums: JSON.parse(result.albums)
+    uid,
+    firstName, age, sex, workerType, description, avatar, lastName, phone,
+    wechat,
+    wechatCode,
+    practice,
+    province,
+    city,
+    zone,
+    workerTypeCH: workerTypeMap[workerType],
+    albums: JSON.parse(albums)
   }
   ctx.body = {
     code: 0,
@@ -155,6 +183,7 @@ router.post("/api/createWorker", async (ctx) => {
         await WorkerMember.create(user);
         ctx.body = {
           code: 0,
+          findUserExist,
           data: 'SUCCESS'
         }
       } catch (error) {
