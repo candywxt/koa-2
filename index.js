@@ -71,18 +71,20 @@ router.get("/api/workerList", async (ctx) => {
 
 
   result.forEach(item => {
-    const { avatar, uid, birthYear, workerType, name, sex, practice, description } = item;
-    const age = nowYear - birthYear;
-    newResult.push({
-      avatar,
-      uid,
-      age,
-      workerTypeCH: workerTypeMap[workerType],
-      name,
-      sex,
-      practice,
-      description,
-    })
+    if(item.publicStatus === 'PUBLIC') {
+      const { avatar, uid, birthYear, workerType, name, sex, practice, description } = item;
+      const age = nowYear - birthYear;
+      newResult.push({
+        avatar,
+        uid,
+        age,
+        workerTypeCH: workerTypeMap[workerType],
+        name,
+        sex,
+        practice,
+        description,
+      })
+    }
   });
   ctx.body = {
     code: 0,
