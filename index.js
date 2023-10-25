@@ -30,9 +30,14 @@ router.get("/", async (ctx) => {
 // 更新计数
 router.post("/api/count", async (ctx) => {
   const { request } = ctx;
-  const { action } = request.body;
+  const { action, type } = request.body;
+  const openId = ctx.request.headers["x-wx-openid"];
   if (action === "inc") {
-    await Counter.create();
+    const count = {
+      type,
+      openId
+    }
+    await Counter.create(count);
   } else if (action === "clear") {
     await Counter.destroy({
       truncate: true,

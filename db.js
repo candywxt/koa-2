@@ -13,11 +13,12 @@ const sequelize = new Sequelize("nodejs_demo", MYSQL_USERNAME, MYSQL_PASSWORD, {
 
 // 定义数据模型
 const Counter = sequelize.define("Counter", {
-  count: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 1,
+  type: {
+    type: DataTypes.STRING,
   },
+  openId: {
+    type: DataTypes.STRING,
+  }
 });
 
 const WorkerMember = sequelize.define("WorkerMember", {
