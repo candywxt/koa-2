@@ -188,8 +188,13 @@ router.post("/api/createWorker", async (ctx) => {
         data: findUserExist
       }
     } else {
+      let uid = openId;
+      if(openId === 'o1tLi5adz5Sjq_spPwOcEy9YESoY'){
+        const timestamp = new Date().getTime(); // 获取当前时间戳
+        uid = openId + timestamp;
+      }
       const user = {
-        uid: openId,
+        uid,
         firstName,
         birthYear,
         birthMonth,
