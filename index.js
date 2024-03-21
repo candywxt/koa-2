@@ -80,11 +80,27 @@ router.get("/api/workerList", async (ctx) => {
 
   result.forEach(item => {
     if(item.publicStatus === 'PUBLIC') {
-      const { avatar, uid, birthYear, workerType, name, sex, practice, description } = item;
+      const { avatar, uid, birthYear, workerType, name, sex, practice, description
+        , firstName, lastName, phone,
+        wechat,
+        wechatCode,
+        province,
+        city,
+        zone,
+        albums } = item;
       const age = nowYear - birthYear;
       newResult.push({
+        firstName,
+        lastName,
+        wechat,
+        wechatCode,
+        phone,
         avatar,
+        province,
+        city,
+        zone,
         uid,
+        albums,
         age,
         workerTypeCH: workerTypeMap[workerType],
         name,
